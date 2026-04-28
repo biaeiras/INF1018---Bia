@@ -10,7 +10,7 @@ int main (void) {
 */
 
 .data
-S2:    .byte 65, 108, 111, 32, 103, 97, 108, 101, 114, 97, 33, 0
+S2:    .byte 65, 108, 111, 32, 123, 103, 97, 108, 101, 114, 97, 125, 33, 0
 Sf:  .string "%c"    /* primeira string de formato para printf */
 Sf2: .string "\n"    /* segunda string de formato para printf */
 
@@ -33,7 +33,15 @@ L1:
   cmpb  $0, (%r12)  /* if (*pc == 0) ? */
   je  L2          /* goto L2 */
 
+  cmpb  $123, (%r12)
+  je pula 
+
+  cmpb  $125, (%r12)
+  je pula 
+
+
   movsbl  (%r12), %eax    /* eax = *r12 (estendendo o byte para 32 bits */
+
 
 /*************************************************************/
 /* este trecho imprime o valor de %eax (estraga %eax)  */
@@ -45,6 +53,12 @@ L1:
 
   addq  $1, %r12  /* r12 += 1; */
   jmp  L1         /* goto L1; */
+
+
+pula: 
+  addq  $1, %r12  /* r12 += 1; */
+  jmp  L1         /* goto L1; */
+
 
 L2:  
 /*************************************************************/
