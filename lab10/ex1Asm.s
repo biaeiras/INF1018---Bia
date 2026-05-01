@@ -16,7 +16,7 @@ ebx   a
 */
 
 .text 
-.global add
+.globl add
     add: 
         pushq %rbp
         movq  %rsp, %rbp
