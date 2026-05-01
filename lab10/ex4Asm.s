@@ -14,14 +14,14 @@ void map2 (int* um, int * outro, int n) {
     map2: 
         push %rbp 
         movq %rsp, %rbp
-        sub $???, %rsp
+        subq $32, %rsp
 
         /*SALVAR CALEE- SAVED*/ 
 
-        movl $0, %ebx 
+        movl $0, %ecx 
 
         WHILE: 
-            cmpl %edx, %ebx 
+            cmpl %edx, %ecx 
             jge SAI_DO_WHILE
 
             # f(*(um+i));
@@ -36,8 +36,8 @@ void map2 (int* um, int * outro, int n) {
             /* guardando porque vai precisar dos resultados depois*/ 
             movq  %rdi, -8(%rbp)
             movq  %rsi, -16(%rbp)
-            movq  %edx, -20(%rbp)
-            movl  %ebx, -24(%rbp)
+            movl  %edx, -20(%rbp)
+            movl  %ecx, -24(%rbp)
 
             /*é um ponteiro *aux */ 
             movl (%r8), %edi
@@ -53,21 +53,19 @@ void map2 (int* um, int * outro, int n) {
             movl    -24(%rbp), %ecx
 
 
-
-
             #*(outro+i) 
             #mesmo porcesso que o anterior
 
             #aux2 = outro + i
             #aux2 = i 
 
-            movl %rdb, %r8d 
+            movl %ecx, %r8d 
 
             #aux2 += outro 
 
              
             imulq $4, %r8 
-            addq %rdi, %r8
+            addq %rsi, %r8
 
             movl %eax, (%r8)
 
