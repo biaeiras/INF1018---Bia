@@ -8,3 +8,12 @@ Para a+= x -> val, foi utilizado o conhecimento aprendido sobre structs, como va
 Para x->next foi utilizada uma lógica parecida, como next é um ponteiro, possui 8bytes, sendo essa sua posição 
 
 Saindo do While foi passado o valor de a (%ebx) para o registrador da %eax com o resultado da função, além de restaurado o oeprador calee saved rbx e apagado a RA. 
+
+Para segunda questão foi criado o RA e reservado espaço na pilha. 
+A condição if (x == NULL) foi traduzida com cmpq comparando o ponteiro com 0, parecido com a questão anteior. Para  o caso recursivo o valor de x-> val foi armazenado em %ebx por ser um inteiro e o ponteiro no %rdi. Após o call, o valor de %eax foi somado com %ebx e o resultado final foi colocado em %eax, além de restaurar o registrador callee-saved %rbx e desmontar a pilha. 
+
+
+Para a implementação da função boo da questão , foi utilizado um laço wile descrecescendo de um valor n passado na  função. Os parâmetros foram preservados usando registradores calee-saved como %r12, %r13 e %r14 para que não fosse perdido os valores durante a chamada da funão call
+A chamada da função f(px->val1, val) respeitou as condições dos registores para cara parâmetro e tipo, usando %edi e %esi respectivamente. E ao fim de cada iteração, o ponetiro px foi incrementado de 8 bytes, que é o tamaho da struct visto que contém 2 inteiros. No final, os registrados foram restaurados e a pilha desmontada. 
+
+A última questão, a implementação map2 foi realizada acompanhando o desenvolvimento feito em sala de aula com o professor. A função pecorre um vetor apicando a função f a cada elemento e armazenando o resultado em outro vetor. Como nos outros exercícios foi tulizado o laço while,neste caso específico para iterar sobre os índices. 
