@@ -14,7 +14,7 @@
         movq  %rsp, %rbp
         subq  $16, %rsp
         movq  %rbx, -8(%rbp)
-        movq  %r12, -16(%rbp)
+       
 
         movl %edi, %ebx  /* gurando o valor de n*/ 
 
