@@ -29,7 +29,7 @@ Dicionário
         #salavr valores callee-saved 
         movq  %r12, -8(%rbp)
         movq  %r13, -16(%rbp)
-        movq  %r14d, -24(%rbp)
+        movq  %r14, -24(%rbp)
 
         #guardando os valores originais dos paramêtros
 
@@ -41,10 +41,11 @@ Dicionário
     WHILE: 
         cmpl $0, %r13d 
         je SAI_DO_WHILE
+        decl %r13d
 
         #preparando os paramêtros
         #f(px->val1, val)
-        movl 0(%r12d), %edi
+        movl 0(%r12), %edi
         movl %r14d, %esi 
 
         call f
@@ -62,7 +63,7 @@ Dicionário
         #restaurar os valores
         movq -8(%rbp), %r12
         movq -16(%rbp), %r13
-        movq -24(%rbp), %r14d
+        movq -24(%rbp), %r14
 
         movq    %rbp, %rsp  
         popq    %rbp    
