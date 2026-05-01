@@ -18,9 +18,9 @@ ebx   a
 .text 
 .global add
     add: 
-        pushq %rbd
+        pushq %rbp
         movq  %rsp, %rbp
-        subq   $16, p   /*VOLTAR SALVANDO O VALOR*/ 
+        subq   $16, %rsp   /*esse valor porque só usou o rbx que tem 8 bytes, mas precisa ser múltiplo de 16*/ 
 
         /*SALVAR OS VALORES CALLEE SAVED*/
         movq %rbx,-8(%rbp)
@@ -45,13 +45,13 @@ ebx   a
             jmp WHILE
         
         SAI_DO_WHILE: 
+         # passar o valor pra função chamadora 
+         movl %ebx, %eax
          #restaurar os callee saved 
+            movq -8(%rbp), %rbx
 
-         # remover o RA
-            movq    %rbp, %rsp  # destroi o RA
-            popq    %rbp    # restaura a base do RA da chamadora
-
-            # retornar
+            movq    %rbp, %rsp  
+            popq    %rbp    
             ret
         
 

@@ -1,0 +1,10 @@
+Na primeira questão para traduzir a função add para Assembly, primeiro foi montada a RA deixando o valor a ser subtraido de rsp (  valor que vai guardar apara a RA) vaziopara ser inserido posteriomente depois de saber resgistrados armazenados na RA. 
+Para variavel a foi utilizado o registrados %ebx, visto que a é inteiro armazenando 4 bytes e %ebx é um registrador calee saved e eu queria testar e praticar a salvar o valor de ebx na RA e depois restaurar devolvendo o valor original. 
+O  for foi decomposto em While que é mais fácil traduzir, ficando : 
+#while(x != NULL), em que null é um ponteiro pro endereço vazio, assim foi utilizado o comparador de ponteiro cmpq 
+
+Para a+= x -> val, foi utilizado o conhecimento aprendido sobre structs, como val é o primeiro valor da estrutura ele está na primeira posição zero, assim foi aidiconado o valor em %rdi ( registrador usado por ser o primeiro argumento de 32 bits), adicionando na variável a (%ebx)
+
+Para x->next foi tulizada uma lógica parecida, como next é um ponteiro, possui 8bytes, sendo essa sua posição 
+
+Saindo do While foi passado o valor de a (%ebx) para o registrador da %eax com o resultado da função, além de restaurado o oeprador calee saved rbx e apagado a RA. 
