@@ -4,6 +4,13 @@
 
 typedef unsigned packed_t;
 
+int xbyte(packed_t word, int bytenum){
+  int move_esquerda = ( 3 - bytenum)* 8; 
+  int temp = word << move_esquerda; 
+
+  return temp >> 24; 
+}
+
 int string2num (char *s, int base) {
   int a = 0;
   for (; *s; s++) {
@@ -21,9 +28,6 @@ int string2num (char *s, int base) {
   return a;
 }
 
-int xbyte (packed_t word, int bytenum) {  
-  return 1;
-}
 
 int main (int argc, char **argv) {
   int x;
