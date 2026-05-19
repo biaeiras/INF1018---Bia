@@ -12,9 +12,9 @@ foo:
     movq %rsp, %rbp 
     subq $16, %rsp 
 
-    jmp add
-
     leave 
+
+    jmp add
 
     ret 
 

@@ -70,15 +70,24 @@ typedef unsigned int uint32;
 //    0xc3                         // ret
 // };
 
-//mudança call para jmp
-unsigned char codigo[] = {
-    0x55,                      //   %rbp
-    0x48, 0x89, 0xe5,                //mov    %rsp,%rbp
-    0x48, 0x83, 0xec, 0x10,             //sub    $0x10,%rsp
-    0xe9, 0x00, 0x00, 0x00, 0x00,          //jmp    d <foo+0xd>
-    0xc9                      //leave
-};
+//mudança call para jmp - ERRO : LEAVE DPS DO JUMP
+// unsigned char codigo[] = {
+//     0x55,                      //   %rbp
+//     0x48, 0x89, 0xe5,                //mov    %rsp,%rbp
+//     0x48, 0x83, 0xec, 0x10,             //sub    $0x10,%rsp
+//     0xe9, 0x00, 0x00, 0x00, 0x00,          //jmp    d <foo+0xd>
+//     0xc9                      //leave
+// };
 
+unsigned char codigo[] = {
+   0x55,                     //push   %rbp
+   0x48, 0x89, 0xe5,               //mov    %rsp,%rbp
+   0x48, 0x83, 0xec, 0x10,           // sub    $0x10,%rsp
+   0xc9 ,                   // leave
+   0xe9, 0x00, 0x00, 0x00, 0x00 ,         //jmp    e <foo+0xe>
+   0xc3                      //ret
+
+};
 //minhas funções
 
 int add(int x){
@@ -101,21 +110,18 @@ int main(void){
     b = bar(a); //chamada de função 
     printf("bar(%d) = %d\n", a ,b);
 
-    f = bar; // não está chamanhdo, função é o endreço 
+    f = bar; // não está chamando , função é o endereço 
     //referencia da função é o endereço da função 
 
-    b = f(a) ; //chamando a função bar passando a
+    b = f(a) ; //chamando a função bar passando "a"
 
     printf("bar(%d) = %d\n", a,b);
 
     int offset ; 
-    offset = (long)add - (long)(codigo + 13); 
-    //para o ocmpilador njão reclamanr porque bar é um ponteiro e offset é  int 
+    offset = (long)add - (long)(codigo + 14); 
+    //para o compilador não reclamanr porque bar é um ponteiro e offset é  int 
 
-    *(int *)(codigo+9) = offset; 
-
-
-
+    *(int *)(codigo+10) = offset; 
 
     //f = codigo; // mesma etapas em asm  e diferentes tipos , então não pode ser assim, tem que traduzir 
 
