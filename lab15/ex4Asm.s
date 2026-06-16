@@ -8,63 +8,67 @@
   return r;
 } */ 
 
-
-/*Dicionário  
-
-  i = ebx 
-
-
-
-*/ 
 .text 
-
 .globl foo3 
     foo3: 
-     # double *a é ponteiro e primeiro argumento então está em rdi 
-     # int n primeiro arg int %edi 
+        #RA 
 
-     pushq %rbp 
-     movq %rsp, %rbp 
-     subq ???, %rsp
+        pushq %rbp 
+        movq %rsp, %rbp 
+        subq $32, %rsp 
 
-     movq %rbx, -8(%rbp)  #vai ser i 
-    
-     #movsd $0, -16(%rbp)  #valor de r ( não pode fazer isso)
+        movq %r12, -8(%rbp) 
 
-     pxor %xmm0, xmm0 #zerando o valor 
-     movsd %xmm0, -16(%rbp)
+        #double r = 0.0 
+        pxor %xmm0, %xmm0 
+        movsd %xmm0, -16(%rbp) 
 
-     movq %r12, -24(%rbp)  #valor de n 
 
-     #i = 0 
-     movl $0, %ebx 
+        #n - salvando os calle saved 
 
-     #while (i < n)
+        movq %r13 , -24(%rbp) 
+        movl %esi, %r13d
 
-     FOR:
-        cmpl %r12d, %ebx
-        jge FORA_FOR
 
-        #r += sin(*a);
+        #a 
+        movq %r14, -32(%rbp) 
+        movq %rdi, %r14
 
-        #para não perder o valor de *a
+        #while(i<n) 
 
-        movq (%rdi), %r13
+        movl $0, %r12d
 
-        movq %r13, %xmm0
+        FOR: 
+            cmpl %r13d, %r12d
+            jge SAI_FOR
 
-        call sin 
+            #passa (%rdi) no caso r14 para xmm0 
+            movsd (%r14), %xmm0
+            call sin 
 
-        addsd %xmm0, -16(%rbp)
+            addsd %xmm0, -16(%rbp) 
 
-        #a++ 
+            #adiciona a++ 
+            addq $8, %r14
 
-        #i++
-        addl $1, %ebx
+            #i++ 
+            addl $1, r12d 
 
-    FORA_FOR: 
-        movs %xmm1, %xmm0
-        ret
+            jmp FOR
+
+        SAI_FOR: 
+            #restaurei os callee-saved 
+            movq -8(%rbp), %r12 
+            movq -24(%rbp), %r13
+            movq -32(%rbp), %r14
+
+            movsd -16(%rbp), %xmm0
+
+            #destruo a RA
+            leave
+            ret
+
+
 
 
 
