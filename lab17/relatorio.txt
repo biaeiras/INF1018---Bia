@@ -1,0 +1,42 @@
+
+i - U 
+buff - D (variável global inicializada)
+g - T - função 
+f - U (chamou  função que não foi criada nesse arquivo) 
+strlen - U
+malloc - U
+strcpy - U
+strcat - U
+
+Resultado : @biaeiras ➜ /workspaces/INF1018---Bia/lab17 (main) $ nm arq1.o
+0000000000000000 B buff
+                 U f
+0000000000000000 T g
+                 U i
+0000000000000008 b k
+                 U malloc
+                 U strcat
+                 U strcpy
+                 U strlen
+
+
+#include <stdio.h>
+
+int g(char *s1, char *s2); U
+
+int i = 0;
+int k = 0;
+char s1[] = "ola";
+char s2[] = " mundo";
+
+int f(char *p) {
+  ...  /* algum código */
+}  T
+
+int main() {
+  int j;
+  ...
+  j = g(s1, s2);U
+  printf("%d",k);U
+  ...
+ }
