@@ -1,0 +1,75 @@
+Exercício 2 
+temp1 :
+
+main - T
+foo - U
+prinff - U 
+a - D
+
+temp2 :
+b-D
+foo- T
+a - U 
+
+Resultado : 
+
+@biaeiras ➜ /workspaces/INF1018---Bia/lab16 (main) $ nm temp1.o
+0000000000000000 D a
+                 U foo
+0000000000000000 T main
+                 U printf
+@biaeiras ➜ /workspaces/INF1018---Bia/lab16 (main) $ nm temp2.o
+                 U a
+0000000000000000 D b
+0000000000000000 T foo
+
+
+
+Exercício 3: 
+Deu erro de compilação :
+
+ temp1.c:5:6: error: conflicting types for ‘a’; have ‘char’
+    5 | char a = 1;
+      |      ^
+In file included from temp1.c:2:
+temp1.h:1:12: note: previous declaration of ‘a’ with type ‘int’
+    1 | extern int a;
+      |            ^
+
+O erro ocorreu pois fazendo o módulo que define a variável receber o header que define a variável faz o compilador perceber que há diferença  na variável garantindo assim consistência das declarações
+
+
+Exercício 4: 
+a) 
+  Resultado : @biaeiras ➜ /workspaces/INF1018---Bia/lab16 (main) $ ./prog
+  1277
+
+  Deu esse resultado visto que em temp1  é criado a variável inteira  como 1024 . Que em binário é: 00000000 00000000 00000100 00000000, quando chama a função foo trocando de int para char, o vlor de -3 é convertido para binário e como char só tem 1 byte , o  byte mais significativo (little endian) é substituido por valor novo (1111 1101) que fica 00000000 00000000 00000100 11111101 que é 1277 em decimal
+b) Ao colocar int a = 1 deu erro: 
+
+@biaeiras ➜ /workspaces/INF1018---Bia/lab16 (main) $ gcc -o prog  temp1.o temp2.o
+/usr/bin/ld: temp2.o:(.data+0x0): multiple definition of `a'; temp1.o:(.data+0x0): first defined here
+collect2: error: ld returned 1 exit status
+
+Esse erro é de linkedição visto que quando o linker tentou juntar temp1.o com temp2.o percebeu que tinha duas variáveis globais com o mesmo nome sendo deifinidas em arquivos diferentes
+
+c)@biaeiras ➜ /workspaces/INF1018---Bia/lab16 (main) $ ./prog
+1024
+ a variável a retornou 1024 porque quando entre no foo o valor alterado é variavel privada do método, logo a de temp1 fica intacta 
+
+5. a)
+@biaeiras ➜ /workspaces/INF1018---Bia/lab16 (main) $ nm temp1.
+o
+0000000000000000 D a
+                 U b
+0000000000000000 T main
+                 U printf
+@biaeiras ➜ /workspaces/INF1018---Bia/lab16 (main) $ nm temp2.
+o
+                 U a
+0000000000000000 D b
+0000000000000000 T foo
+
+Executando o programa deu segmentation fault visto que apesar do compilador e o linker confiarem que existe uma função b(), ela não existe
+
+b) Também deu segmention fault por causa da segurança fazendo com que b() não seja reconhecido como uma função que somente possui RET
